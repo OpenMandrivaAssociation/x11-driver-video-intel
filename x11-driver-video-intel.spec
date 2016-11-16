@@ -9,7 +9,7 @@ Group:		System/X11
 License:	MIT
 URL:		http://xorg.freedesktop.org
 %if "%snapshot" == ""
-Release:        5
+Release:        6
 Source0:	http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-%{version}.tar.bz2
 %else
 Release:	6.%{snapshot}.10
