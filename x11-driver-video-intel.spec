@@ -1,6 +1,6 @@
 # X.org drivers use symbols from the X server
 %global _disable_ld_no_undefined 1
-%define snapshot 20161102
+%define snapshot 20161122
 
 Summary:	X.org driver for Intel graphics controllers
 Name:		x11-driver-video-intel
@@ -9,10 +9,10 @@ Group:		System/X11
 License:	MIT
 URL:		http://xorg.freedesktop.org
 %if "%snapshot" == ""
-Release:        5
+Release:        1
 Source0:	http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-%{version}.tar.bz2
 %else
-Release:	6.%{snapshot}.10
+Release:	6.%{snapshot}.1
 # rm -rf xf86-video-intel && git clone git://anongit.freedesktop.org/xorg/driver/xf86-video-intel && cd xf86-video-intel/
 # git archive --prefix=xf86-video-intel-$(date +%Y%m%d)/ --format=tar HEAD | xz > ../xf86-video-intel-$(date +%Y%m%d).tar.xz
 Source0:        xf86-video-intel-%{snapshot}.tar.xz
@@ -44,9 +44,14 @@ BuildRequires:	pkgconfig(xfixes)
 BuildRequires:	pkgconfig(xcursor)
 BuildRequires:	pkgconfig(xtst)
 BuildRequires:	pkgconfig(xrender)
+BuildRequires:	pkgconfig(xscrnsaver)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(pixman-1)
 BuildRequires:	pkgconfig(xfont)
+BuildRequires:	pkgconfig(xcb-dri3)
+BuildRequires:	pkgconfig(xcb-sync)
+BuildRequires:	pkgconfig(x11-xcb)
+BuildRequires:	pkgconfig(xshmfence)
 Requires(post,postun):	update-alternatives >= 1.9.0
 Requires:	x11-server-common %(xserver-sdk-abi-requires videodrv)
 Requires:	udev
@@ -117,9 +122,11 @@ mv %{buildroot}%{_libdir}/xorg/modules/drivers/intel_drv.* %{buildroot}%{_libdir
 %{_sbindir}/update-alternatives --remove x11-intel-so %{_libdir}/xorg/modules/drivers/intel-common/intel_drv.so
 
 %files
+%{_bindir}/intel-virtual-output
 %{_libdir}/libIntelXvMC.so.1*
 %dir %{_libdir}/xorg/modules/drivers/intel-common
 %{_libdir}/xorg/modules/drivers/intel-common/intel_drv.*
 %{_mandir}/man4/intel.4*
+%{_mandir}/man4/intel-virtual-output.4*
 %{_libexecdir}/xf86-video-intel-backlight-helper
 %{_datadir}/polkit-1/actions/org.x.xf86-video-intel.backlight-helper.policy
