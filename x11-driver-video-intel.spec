@@ -1,6 +1,6 @@
 # X.org drivers use symbols from the X server
 %global _disable_ld_no_undefined 1
-%define snapshot 20161122
+%define snapshot 20181023
 
 Summary:	X.org driver for Intel graphics controllers
 Name:		x11-driver-video-intel
@@ -15,12 +15,12 @@ Source0:	http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel
 Release:	6.%{snapshot}.1
 # rm -rf xf86-video-intel && git clone git://anongit.freedesktop.org/xorg/driver/xf86-video-intel && cd xf86-video-intel/
 # git archive --prefix=xf86-video-intel-$(date +%Y%m%d)/ --format=tar HEAD | xz > ../xf86-video-intel-$(date +%Y%m%d).tar.xz
-Source0:        xf86-video-intel-%{snapshot}.tar.xz
+Source0:        xf86-video-intel-%{snapshot}.tar.bz2
 %endif
 # For now, Intel GPUs only exist in x86 boards... Remove this if Intel
 # ever comes up with a PCIE graphics card or an ARM SoC with an Intel
 # GPU...
-ExclusiveArch:	%{ix86} x86_64
+ExclusiveArch:	%{ix86} x86_64 znver1
 # Mandriva patches
 Patch100:	0100-Mandriva-fix-check-vt-switch.patch
 # (cg) Disable for now as it hits an assert on Xserver 1.9
