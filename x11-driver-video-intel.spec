@@ -75,7 +75,7 @@ x11-driver-video-intel is the X.org driver for Intel video chipsets.
 %setup -qn xf86-video-intel-%{version}
 %endif
 
-%apply_patches
+%autopatch -p1
 
 %build
 %if "%snapshot" != ""
