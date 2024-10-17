@@ -7,7 +7,7 @@ Name:		x11-driver-video-intel
 Version:	2.99.917
 Group:		System/X11
 License:	MIT
-URL:		http://xorg.freedesktop.org
+URL:		https://xorg.freedesktop.org
 %if "%snapshot" == ""
 Release:        3
 Source0:	http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-%{version}.tar.bz2
