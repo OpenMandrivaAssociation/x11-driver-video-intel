@@ -1,26 +1,19 @@
 # X.org drivers use symbols from the X server
 %global _disable_ld_no_undefined 1
-%define snapshot 20181023
+#define snapshot 20181023
 
 Summary:	X.org driver for Intel graphics controllers
 Name:		x11-driver-video-intel
-Version:	2.99.917
+Version:	3.0.0.1%{?snapshot:~%{snapshot}}
 Group:		System/X11
 License:	MIT
 URL:		https://xorg.freedesktop.org
-%if "%snapshot" == ""
-Release:        3
-Source0:	http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-%{version}.tar.bz2
-%else
-Release:	6.%{snapshot}.1
-# rm -rf xf86-video-intel && git clone git://anongit.freedesktop.org/xorg/driver/xf86-video-intel && cd xf86-video-intel/
-# git archive --prefix=xf86-video-intel-$(date +%Y%m%d)/ --format=tar HEAD | xz > ../xf86-video-intel-$(date +%Y%m%d).tar.xz
+Release:        1
+%if 0%{?snapshot:1}
 Source0:        xf86-video-intel-%{snapshot}.tar.bz2
+%else
+Source0:	https://github.com/X11Libre/xf86-video-intel/archive/refs/tags/xlibre-xf86-video-intel-%{version}.tar.gz
 %endif
-# For now, Intel GPUs only exist in x86 boards... Remove this if Intel
-# ever comes up with a PCIE graphics card or an ARM SoC with an Intel
-# GPU...
-ExclusiveArch:	%{ix86} x86_64 znver1
 # Mandriva patches
 Patch100:	0100-Mandriva-fix-check-vt-switch.patch
 # (cg) Disable for now as it hits an assert on Xserver 1.9
@@ -52,7 +45,6 @@ BuildRequires:	pkgconfig(xcb-dri3)
 BuildRequires:	pkgconfig(xcb-sync)
 BuildRequires:	pkgconfig(x11-xcb)
 BuildRequires:	pkgconfig(xshmfence)
-Requires(post,postun):	update-alternatives >= 1.9.0
 Requires:	x11-server-common %(xserver-sdk-abi-requires videodrv)
 Requires:	udev
 
@@ -65,68 +57,20 @@ Obsoletes:	x11-driver-video-intel-fast-i830
 Requires:	libva-intel-driver
 Requires:	%{_lib}dri-drivers-intel
 
+BuildSystem:	meson
+
+%patchlist
+intel-3.0.0.1-compile.patch
+
 %description
 x11-driver-video-intel is the X.org driver for Intel video chipsets.
 
-%prep
-%if "%snapshot" != ""
-%setup -qn xf86-video-intel-%{snapshot}
-%else
-%setup -qn xf86-video-intel-%{version}
-%endif
-
-%autopatch -p1
-
-%build
-%if "%snapshot" != ""
-./autogen.sh
-%endif
-
-# As of Xorg 1.18 and clang 3.7.0-1.1, the screen on a Dell XPS13 flickers
-# if the driver is built with clang. Let's force gcc for now.
-#CC=gcc CXX=g++ \
-CFLAGS="`echo %{optflags} |sed -e 's,-D_FORTIFY_SOURCE=2 -fstack-protector,,;s,-flto,,'`" \
-%configure \
-    --enable-dri \
-    --enable-sna \
-    --with-default-accel=sna \
-    --enable-kms-only \
-    --with-default-dri=3
-
-%make
-
-%install
-%makeinstall_std
-rm -f %{buildroot}%{_libdir}/*.so %{buildroot}%{_libdir}/*.la %{buildroot}%{_libdir}/xorg/modules/drivers/intel-common/intel_drv.la
-rm -f %{buildroot}%{_libdir}/xorg/modules/drivers/i810_drv.*
-rm -f %{buildroot}%{_mandir}/man4/i810.4*
-
-mkdir -p %{buildroot}%{_libdir}/xorg/modules/drivers/intel-common
-mv %{buildroot}%{_libdir}/xorg/modules/drivers/intel_drv.* %{buildroot}%{_libdir}/xorg/modules/drivers/intel-common
-
-# (cg) NB. Alternatives are used here due to the use of a now obsoleted
-# fast-i830 subpackage for some netbook chipsets.
-# The alternatives system currently remains but only one package will provide
-# the 'alternative'. I will leave this in place for a while just incase
-# we need to resurrect a chip-specific package again in the near future
-# but if it proves unnecessary it should be tidied up.
-
-# use posttrans so that files from old package are removed first
-%posttrans
-%{_sbindir}/update-alternatives \
-	--install %{_libdir}/xorg/modules/drivers/intel_drv.so x11-intel-so %{_libdir}/xorg/modules/drivers/intel-common/intel_drv.so 20 \
-	--slave   %{_libdir}/xorg/modules/drivers/intel_drv.la x11-intel-la %{_libdir}/xorg/modules/drivers/intel-common/intel_drv.la
-
-%postun
-[ $1 = 0 ] || exit 0
-%{_sbindir}/update-alternatives --remove x11-intel-so %{_libdir}/xorg/modules/drivers/intel-common/intel_drv.so
-
 %files
 %{_bindir}/intel-virtual-output
-%{_libdir}/libIntelXvMC.so.1*
-%dir %{_libdir}/xorg/modules/drivers/intel-common
-%{_libdir}/xorg/modules/drivers/intel-common/intel_drv.*
+%{_libdir}/libIntelXvMC.so*
+%{_libdir}/libI810XvMC.so*
 %{_mandir}/man4/intel.4*
 %{_mandir}/man4/intel-virtual-output.4*
 %{_libexecdir}/xf86-video-intel-backlight-helper
 %{_datadir}/polkit-1/actions/org.x.xf86-video-intel.backlight-helper.policy
+%{_libdir}/xorg/modules/drivers/intel_drv.so
