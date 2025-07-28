@@ -60,7 +60,7 @@ Requires:	%{_lib}dri-drivers-intel
 BuildSystem:	meson
 
 %patchlist
-intel-3.0.0.1-compile.patch
+#intel-3.0.0.1-compile.patch
 
 %description
 x11-driver-video-intel is the X.org driver for Intel video chipsets.
