@@ -40,12 +40,13 @@ BuildRequires:	pkgconfig(xrender)
 BuildRequires:	pkgconfig(xscrnsaver)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(pixman-1)
+BuildRequires:  pkgconfig(valgrind)
 BuildRequires:	pkgconfig(xfont)
 BuildRequires:	pkgconfig(xcb-dri3)
 BuildRequires:	pkgconfig(xcb-sync)
 BuildRequires:	pkgconfig(x11-xcb)
 BuildRequires:	pkgconfig(xshmfence)
-BuildRequires:  valgrind
+
 Requires:	x11-server-common %(xserver-sdk-abi-requires videodrv)
 Requires:	udev
 
