@@ -45,6 +45,7 @@ BuildRequires:	pkgconfig(xcb-dri3)
 BuildRequires:	pkgconfig(xcb-sync)
 BuildRequires:	pkgconfig(x11-xcb)
 BuildRequires:	pkgconfig(xshmfence)
+BuildRequires:  valgrind
 Requires:	x11-server-common %(xserver-sdk-abi-requires videodrv)
 Requires:	udev
 
