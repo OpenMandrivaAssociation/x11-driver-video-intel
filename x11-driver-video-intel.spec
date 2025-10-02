@@ -22,6 +22,7 @@ Patch100:	0100-Mandriva-fix-check-vt-switch.patch
 
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(libdrm)
+BuildRequires:	pkgconfig(libdrm_intel)
 BuildRequires:	pkgconfig(udev) >= 186
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xcb-util)
