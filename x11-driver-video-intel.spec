@@ -24,6 +24,7 @@ BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(libdrm)
 BuildRequires:	pkgconfig(libdrm_intel)
 BuildRequires:	pkgconfig(udev) >= 186
+BuildRequires:	pkgconfig(valgrind)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xcb-util)
 BuildRequires:	pkgconfig(xorg-macros)
