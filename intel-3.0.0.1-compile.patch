@@ -1,0 +1,12 @@
+diff -up x11-driver-video-intel-3.0.0.4/src/sna/compiler.h.omv~ x11-driver-video-intel-3.0.0.4/src/sna/compiler.h
+--- x11-driver-video-intel-3.0.0.4/src/sna/compiler.h.omv~	2025-10-02 03:24:26.212312792 +0200
++++ x11-driver-video-intel-3.0.0.4/src/sna/compiler.h	2025-10-02 03:25:17.222140286 +0200
+@@ -69,7 +69,7 @@
+ #define fast
+ #endif
+ 
+-#if HAS_GCC(4, 7)
++#if HAS_GCC(4, 7) && !defined(__clang__)
+ #define avx2 fast __attribute__((target("avx2,avx,sse4.2,sse2,fpmath=sse")))
+ #define assume_aligned(ptr, align) __builtin_assume_aligned((ptr), (align))
+ #define assume_misaligned(ptr, align, offset) __builtin_assume_aligned((ptr), (align), (offset))
