@@ -69,6 +69,9 @@ xlibre-intel-fix-build.patch
 %description
 x11-driver-video-intel is the X.org driver for Intel video chipsets.
 
+%prep -a
+ln -s ../build/config.h tools/
+
 %files
 %{_bindir}/intel-virtual-output
 %{_libdir}/libIntelXvMC.so*
