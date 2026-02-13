@@ -1,0 +1,30 @@
+diff -up x11-driver-video-intel-25.0.1/src/sna/meson.build.omv~ x11-driver-video-intel-25.0.1/src/sna/meson.build
+--- x11-driver-video-intel-25.0.1/src/sna/meson.build.omv~	2026-02-13 17:34:52.873574798 +0100
++++ x11-driver-video-intel-25.0.1/src/sna/meson.build	2026-02-13 17:35:01.664813161 +0100
+@@ -83,10 +83,8 @@ if with_dri3
+   sna_deps += dri3
+ endif
+ 
+-if has_present
+-  sna_sources += 'sna_present.c'
+-  sna_deps += present
+-endif
++sna_sources += 'sna_present.c'
++sna_deps += present
+ 
+ if with_xvmc
+   sna_sources += 'sna_video_hwmc.c'
+diff -up x11-driver-video-intel-25.0.1/src/uxa/meson.build.omv~ x11-driver-video-intel-25.0.1/src/uxa/meson.build
+--- x11-driver-video-intel-25.0.1/src/uxa/meson.build.omv~	2026-02-13 17:35:06.905079432 +0100
++++ x11-driver-video-intel-25.0.1/src/uxa/meson.build	2026-02-13 17:35:11.968197202 +0100
+@@ -44,9 +44,7 @@ if with_dri3
+   ]
+ endif
+ 
+-if has_present
+-  uxa_sources += 'intel_present.c'
+-endif
++uxa_sources += 'intel_present.c'
+ 
+ if with_xvmc
+   uxa_sources += 'intel_hwmc.c'

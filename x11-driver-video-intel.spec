@@ -4,7 +4,7 @@
 
 Summary:	X.org driver for Intel graphics controllers
 Name:		x11-driver-video-intel
-Version:	3.0.0.4%{?snapshot:~%{snapshot}}
+Version:	25.0.1%{?snapshot:~%{snapshot}}
 Group:		System/X11
 License:	MIT
 URL:		https://xorg.freedesktop.org
@@ -64,6 +64,7 @@ BuildSystem:	meson
 
 %patchlist
 intel-3.0.0.1-compile.patch
+xlibre-intel-fix-build.patch
 
 %description
 x11-driver-video-intel is the X.org driver for Intel video chipsets.
@@ -76,4 +77,4 @@ x11-driver-video-intel is the X.org driver for Intel video chipsets.
 %{_mandir}/man4/intel-virtual-output.4*
 %{_libexecdir}/xf86-video-intel-backlight-helper
 %{_datadir}/polkit-1/actions/org.x.xf86-video-intel.backlight-helper.policy
-%{_libdir}/xorg/modules/drivers/intel_drv.so
+%{_libdir}/xorg/modules/xlibre-%(echo %{version}|cut -d. -f1)/drivers/intel_drv.so
